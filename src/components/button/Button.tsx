@@ -1,6 +1,7 @@
 type ButtonProps = {
   text: string;
   className: string;
+  onAdd: ()=>void
 };
 
 function Button({ text, className ,onAdd}:ButtonProps) {

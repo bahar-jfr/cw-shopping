@@ -7,7 +7,7 @@ type IFruit = {
   quantity: number;
 };
 
-const fruits: IFruit[] = [];
+const fruits = {fruitData:[],page:0};
 
 export enum fruitsActionTypes {
   ADD_FRUITS = "ADD_FRUITS",
@@ -16,44 +16,45 @@ export enum fruitsActionTypes {
 }
 
 type Action =
-  | { type: fruitsActionTypes.ADD_FRUITS; payload: { fruit: IFruit } }
+  | { type: fruitsActionTypes.ADD_FRUITS; payload: [ fruit: IFruit ] }
   | { type: fruitsActionTypes.CLEAR_CARD }
   | {
       type: fruitsActionTypes.UPDATE_QUANTITY;
       payload: { id: number; quantity: number };
     };
 
-export function fruitReducer(state: IFruit[], action: Action) {
-  switch (action.type) {
-    case fruitsActionTypes.ADD_FRUITS:
-      return [...state, action.payload.fruit];
-    case fruitsActionTypes.CLEAR_CARD:
-      return [];
-    case fruitsActionTypes.UPDATE_QUANTITY:
-      return state.map((fruit) =>
-        fruit.id === action.payload.id
-          ? { ...fruit, quantity: action.payload.quantity }
-          : fruit
-      );
-    default:
+    export function fruitReducer(state: any, action: any) {
+      switch (action.type) {
+      case fruitsActionTypes.ADD_FRUITS:
+      return { ...state, fruitData: action.payload };
+      
+      case fruitsActionTypes.CLEAR_CARD:
+      return { ...state, fruitData: [] };
+      
+      case fruitsActionTypes.UPDATE_QUANTITY:
+      return {
+      ...state,
+      fruitData: state.fruitData.map((fruit) =>
+      fruit.id === action.payload.id
+      ? { ...fruit, quantity: fruit.quantity + action.payload.quantity }
+      : fruit
+      ),
+      };
+      
+      default:
       return state;
-  }
-}
+      }
+      }
+  
 
 type FruitContextType = {
   fruitState: IFruit[];
   fruitDispatch: React.Dispatch<Action>;
 };
 
-const FruitContext = createContext<FruitContextType | undefined>(undefined);
+const FruitContext = createContext({});
 
-export const useFruitContext = () => {
-  const context = useContext(FruitContext);
-  if (!context) {
-    throw new Error("useFruitContext must be used within a FruitProvider");
-  }
-  return context;
-};
+export const useFruitContext = () => useContext(FruitContext)
 
 type FruitProviderProps = {
   children: ReactNode;

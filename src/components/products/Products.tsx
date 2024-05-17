@@ -7,7 +7,7 @@ const Products = () => {
       <h2 className="text-4xl">Some Products</h2>
       <div className="flex gap-5">
       {fruits.map((fruit) => {
-        return <Card key={fruit.id} name={fruit.name} imgURL={fruit.imgURL} />;
+        return <Card key={fruit.id} name={fruit.name} imgURL={fruit.imgURL} price={fruit.price} id={fruit.id}/>;
       })}
       </div>
     </div>

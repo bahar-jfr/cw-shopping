@@ -8,7 +8,7 @@ function BasketCard({name,quantity,price}:BasketCardProps) {
   return (
     <div className="bg-gray-300">
       <p className="text-xl">{name}</p>
-      <div className="bg-blue-400">{quantity} piece for {price}$</div>
+      <div className="bg-blue-400">{quantity} piece for {quantity*price}$</div>
     </div>
   )
 }
